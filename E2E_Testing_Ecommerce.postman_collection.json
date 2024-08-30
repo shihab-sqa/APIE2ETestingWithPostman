@@ -1,0 +1,534 @@
+{
+	"info": {
+		"_postman_id": "8ff46b58-c11f-40d3-8f76-defda2148e88",
+		"name": "E2E_ Testing_Ecommerce",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30300258"
+	},
+	"item": [
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jsondata= pm.response.json();\r",
+							"\r",
+							"pm.test(\"Validate Status code\",function(){\r",
+							"\r",
+							"pm.response.to.have.status(200);\r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test (\"Validate Message\",function(){\r",
+							"\r",
+							"pm.expect (jsondata.message).to.contain(\"Login Successfully\");\r",
+							"\r",
+							"})\r",
+							"\r",
+							"pm.collectionVariables.set(jsondata.userid,\"userid\");\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userEmail\": \"shihabzzhasan@gmail.com\",\r\n    \"userPassword\": \"Shihab@1992\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rahulshettyacademy.com/api/ecom/auth/login",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"api",
+						"ecom",
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddToCart",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jasondata= pm.response.json();\r",
+							"pm.test(\"Validate response Status\",function(){\r",
+							"\r",
+							"pm.response.to.have.status(200);\r",
+							"\r",
+							"})\r",
+							"\r",
+							"pm.test (\"Validate Status Meassge\",function(){\r",
+							"pm.expect(jasondata.message).include(\"Product Added To Cart\");\r",
+							"\r",
+							"})\r",
+							"\r",
+							"  const req=  JSON.parse (pm.request.body.raw);\r",
+							"  console.log(req._id);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQxNWYwNGFlMmFmZDRjMGI1ZjhkMzYiLCJ1c2VyRW1haWwiOiJzaGloYWJ6emhhc2FuQGdtYWlsLmNvbSIsInVzZXJNb2JpbGUiOjE3NDc4MzQ4MTMsInVzZXJSb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MjUwMDA5MjgsImV4cCI6MTc1NjU1ODUyOH0.Bs7EYHALIRkqJ7_MLCbx2FmkX0ad2efNWIc9E_bNlYw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"_id\": \"66d15f04ae2afd4c0b5f8d36\",\r\n    \"product\": {\r\n        \"_id\": \"6581ca399fd99c85e8ee7f45\",\r\n        \"productName\": \"ZARA COAT 3\",\r\n        \"productCategory\": \"fashion\",\r\n        \"productSubCategory\": \"shirts\",\r\n        \"productPrice\": 31500,\r\n        \"productDescription\": \"Zara coat for Women and girls\",\r\n        \"productImage\": \"https://rahulshettyacademy.com/api/ecom/uploads/productImage_1650649434146.jpeg\",\r\n        \"productRating\": \"0\",\r\n        \"productTotalOrders\": \"0\",\r\n        \"productStatus\": true,\r\n        \"productFor\": \"women\",\r\n        \"productAddedBy\": \"admin@gmail.com\",\r\n        \"__v\": 0\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rahulshettyacademy.com/api/ecom/user/add-to-cart",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"api",
+						"ecom",
+						"user",
+						"add-to-cart"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jasondata= pm.response.json();\r",
+							"\r",
+							"pm.collectionVariables.set(jasondata.orders[0],\"orderid\");\r",
+							"\r",
+							"console.log(jasondata.orders);\r",
+							"\r",
+							"pm.test(\"Validate Message\",function(){\r",
+							"pm.expect(jasondata.message).include(\"Order Placed Successfully\");\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQxNWYwNGFlMmFmZDRjMGI1ZjhkMzYiLCJ1c2VyRW1haWwiOiJzaGloYWJ6emhhc2FuQGdtYWlsLmNvbSIsInVzZXJNb2JpbGUiOjE3NDc4MzQ4MTMsInVzZXJSb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MjUwMDA5MjgsImV4cCI6MTc1NjU1ODUyOH0.Bs7EYHALIRkqJ7_MLCbx2FmkX0ad2efNWIc9E_bNlYw",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"orders\": [\r\n        {\r\n            \"country\": \"India\",\r\n            \"productOrderedId\": \"6581ca399fd99c85e8ee7f45\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://rahulshettyacademy.com/api/ecom/order/create-order",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"api",
+						"ecom",
+						"order",
+						"create-order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Order_list",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const jasondata= pm.response.json();\r",
+							"pm.test(\"Response Code\",function(){\r",
+							"\r",
+							"pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"console.log(jasondata.count);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQxNWYwNGFlMmFmZDRjMGI1ZjhkMzYiLCJ1c2VyRW1haWwiOiJzaGloYWJ6emhhc2FuQGdtYWlsLmNvbSIsInVzZXJNb2JpbGUiOjE3NDc4MzQ4MTMsInVzZXJSb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MjUwMDA5MjgsImV4cCI6MTc1NjU1ODUyOH0.Bs7EYHALIRkqJ7_MLCbx2FmkX0ad2efNWIc9E_bNlYw",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://rahulshettyacademy.com/api/ecom/user/get-cart-count/{{orderid}}",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"api",
+						"ecom",
+						"user",
+						"get-cart-count",
+						"{{orderid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete_Product",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status Code\",function(){\r",
+							"pm.response.to.have.status(400);\r",
+							"\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NmQxNWYwNGFlMmFmZDRjMGI1ZjhkMzYiLCJ1c2VyRW1haWwiOiJzaGloYWJ6emhhc2FuQGdtYWlsLmNvbSIsInVzZXJNb2JpbGUiOjE3NDc4MzQ4MTMsInVzZXJSb2xlIjoiY3VzdG9tZXIiLCJpYXQiOjE3MjUwMDA5MjgsImV4cCI6MTc1NjU1ODUyOH0.Bs7EYHALIRkqJ7_MLCbx2FmkX0ad2efNWIc9E_bNlYw",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://rahulshettyacademy.com/api/ecom/order/delete-order/{{orderid}}",
+					"protocol": "https",
+					"host": [
+						"rahulshettyacademy",
+						"com"
+					],
+					"path": [
+						"api",
+						"ecom",
+						"order",
+						"delete-order",
+						"{{orderid}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "null",
+			"value": ""
+		},
+		{
+			"key": "66d18b58ae2afd4c0b5fd327",
+			"value": ""
+		},
+		{
+			"key": "66d18b83ae2afd4c0b5fd348",
+			"value": ""
+		},
+		{
+			"key": "66d18de7ae2afd4c0b5fd698",
+			"value": ""
+		},
+		{
+			"key": "66d18e65ae2afd4c0b5fd7a0",
+			"value": ""
+		},
+		{
+			"key": "orderid",
+			"value": "66d15f04ae2afd4c0b5f8d36"
+		},
+		{
+			"key": "66d18edcae2afd4c0b5fd838",
+			"value": ""
+		},
+		{
+			"key": "66d18edeae2afd4c0b5fd83f",
+			"value": ""
+		},
+		{
+			"key": "66d18ef9ae2afd4c0b5fd85a",
+			"value": ""
+		},
+		{
+			"key": "66d18f0bae2afd4c0b5fd88c",
+			"value": ""
+		},
+		{
+			"key": "66d18f0cae2afd4c0b5fd893",
+			"value": ""
+		},
+		{
+			"key": "66d18f0dae2afd4c0b5fd89a",
+			"value": ""
+		},
+		{
+			"key": "66d18f0dae2afd4c0b5fd8a1",
+			"value": ""
+		},
+		{
+			"key": "66d18f0eae2afd4c0b5fd8a8",
+			"value": ""
+		},
+		{
+			"key": "66d18f0fae2afd4c0b5fd8af",
+			"value": ""
+		},
+		{
+			"key": "66d18f10ae2afd4c0b5fd8b6",
+			"value": ""
+		},
+		{
+			"key": "66d18f10ae2afd4c0b5fd8bd",
+			"value": ""
+		},
+		{
+			"key": "66d18f11ae2afd4c0b5fd8c4",
+			"value": ""
+		},
+		{
+			"key": "66d18f12ae2afd4c0b5fd8cb",
+			"value": ""
+		},
+		{
+			"key": "66d18f13ae2afd4c0b5fd8d5",
+			"value": ""
+		},
+		{
+			"key": "66d18f13ae2afd4c0b5fd8dc",
+			"value": ""
+		},
+		{
+			"key": "66d18f14ae2afd4c0b5fd8e3",
+			"value": ""
+		},
+		{
+			"key": "66d18f15ae2afd4c0b5fd8ea",
+			"value": ""
+		},
+		{
+			"key": "66d18f3dae2afd4c0b5fd928",
+			"value": ""
+		},
+		{
+			"key": "66d18f3fae2afd4c0b5fd931",
+			"value": ""
+		},
+		{
+			"key": "66d18f41ae2afd4c0b5fd938",
+			"value": ""
+		},
+		{
+			"key": "66d18f47ae2afd4c0b5fd93f",
+			"value": ""
+		},
+		{
+			"key": "66d18f48ae2afd4c0b5fd946",
+			"value": ""
+		},
+		{
+			"key": "66d18f49ae2afd4c0b5fd94d",
+			"value": ""
+		},
+		{
+			"key": "66d18f4aae2afd4c0b5fd954",
+			"value": ""
+		},
+		{
+			"key": "66d18f4bae2afd4c0b5fd95b",
+			"value": ""
+		},
+		{
+			"key": "66d18f4cae2afd4c0b5fd962",
+			"value": ""
+		},
+		{
+			"key": "66d18f4dae2afd4c0b5fd969",
+			"value": ""
+		},
+		{
+			"key": "66d18f4dae2afd4c0b5fd970",
+			"value": ""
+		},
+		{
+			"key": "66d18f4eae2afd4c0b5fd977",
+			"value": ""
+		},
+		{
+			"key": "66d195bfae2afd4c0b5fe6b5",
+			"value": ""
+		},
+		{
+			"key": "66d19645ae2afd4c0b5fe7b5",
+			"value": ""
+		},
+		{
+			"key": "66d19695ae2afd4c0b5fe841",
+			"value": ""
+		},
+		{
+			"key": "66d198aaae2afd4c0b5feddb",
+			"value": ""
+		},
+		{
+			"key": "66d198acae2afd4c0b5fede5",
+			"value": ""
+		},
+		{
+			"key": "66d198adae2afd4c0b5fedf0",
+			"value": ""
+		},
+		{
+			"key": "66d198aeae2afd4c0b5fee03",
+			"value": ""
+		},
+		{
+			"key": "66d19997ae2afd4c0b5fefd0",
+			"value": ""
+		},
+		{
+			"key": "66d199efae2afd4c0b5ff08d",
+			"value": ""
+		},
+		{
+			"key": "66d199fdae2afd4c0b5ff0d0",
+			"value": ""
+		},
+		{
+			"key": "66d199feae2afd4c0b5ff0d7",
+			"value": ""
+		},
+		{
+			"key": "66d19a3eae2afd4c0b5ff136",
+			"value": ""
+		},
+		{
+			"key": "66d19a46ae2afd4c0b5ff149",
+			"value": ""
+		},
+		{
+			"key": "66d19acbae2afd4c0b5ff224",
+			"value": ""
+		},
+		{
+			"key": "66d19aeaae2afd4c0b5ff26b",
+			"value": ""
+		},
+		{
+			"key": "66d19aebae2afd4c0b5ff272",
+			"value": ""
+		},
+		{
+			"key": "66d19aecae2afd4c0b5ff285",
+			"value": ""
+		},
+		{
+			"key": "66d19af3ae2afd4c0b5ff2ad",
+			"value": ""
+		},
+		{
+			"key": "66d19b25ae2afd4c0b5ff36b",
+			"value": ""
+		},
+		{
+			"key": "66d19b68ae2afd4c0b5ff3d4",
+			"value": ""
+		},
+		{
+			"key": "66d19b6aae2afd4c0b5ff3ee",
+			"value": ""
+		},
+		{
+			"key": "66d19b6bae2afd4c0b5ff3f5",
+			"value": ""
+		},
+		{
+			"key": "66d19b9fae2afd4c0b5ff459",
+			"value": ""
+		}
+	]
+}
